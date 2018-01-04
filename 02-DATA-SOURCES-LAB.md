@@ -19,6 +19,7 @@ You can have a look at the webserver started by Prometheus on [localhost:9090](l
 Then attach it in [http://localhost:3000/datasources](http://localhost:3000/datasources).
 
 It's an empty data source, so not really useful until it is populated. A simple trick to get some data is by letting Prometheus monitor itself. Stop the container, and customize it by creating a new `Dockerfile` with the following content:
+
 ```Dockerfile
 FROM prom/prometheus
 ADD prometheus/monitor-self.yml /etc/prometheus/prometheus.yml
@@ -68,6 +69,26 @@ You'll find more info on:
 - [https://docs.influxdata.com/influxdb/v1.4/introduction/getting_started/](https://docs.influxdata.com/influxdb/v1.4/introduction/getting_started/)
 
 ## CloudWatch
+
+Add a new *CloudWatch* datasource in http://localhost:3000/datasources. You can choose from 3 different authentication mechanisms:
+
+- **Access & Secret Key** - Access keys belong to [IAM](https://aws.amazon.com/iam/) users, which means you have to create a user for Grafana. It's a simple and common practice, but not recommended.
+- **Credentials file** - Essentially the same as **Access keys**. If you have configured your [AWS CLI](https://aws.amazon.com/cli/) properly, you'll have the **Access key** stored in a *credentials file* usually located in `~/.aws/credentials`. By referencing a profile in the credentials file, you don't have to store the **Access key** in Grafana:
+```
+[default]
+aws_access_key_id=AKIAIOSFODNN7EXAMPLE
+aws_secret_access_key=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+
+[user2]
+aws_access_key_id=AKIAI44QH8DHBEXAMPLE
+aws_secret_access_key=je7MtGbClwBF/2Zp9Utk/h3yCo8nvbEXAMPLEKEY
+```
+- **ARN** - Instead of creating a user for Grafan, you can specify a role. The role is given the proper permissions (IAM policies) 
+
+Log in to your AWS console:
+- [https://console.aws.amazon.com/](https://console.aws.amazon.com/)
+
+
 
 ## ElasticSearch
 
