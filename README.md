@@ -16,8 +16,4 @@ Note: This lab is written for Unix type systems (Mac/Linux). Windows users must 
 - [Introduction lab](01-INTRO-LAB.md)
 - [Data sources lab](02-DATA-SOURCES-LAB.md)
 - [Use cases lab](03-USE-CASES-LAB.md)
-
-## Todo
-
-- Hosting Prometheus & InfluxDB in the cloud
-- Indexing for a few TSDB
+- [Hosting](04-HOSTING.md)

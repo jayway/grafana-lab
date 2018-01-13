@@ -8,6 +8,8 @@ Since focus is not on creating/configuring dashboards, `Grafana` offers a nifty 
 Community built dashboards can be found here:
 - https://grafana.net/dashboards
 
+Also, some [debug](#debug) info can be found last in this chapter
+
 ## Prometheus
 
 To attach Prometheus as a data source, first install it using docker:
@@ -70,27 +72,37 @@ You'll find more info on:
 
 ## CloudWatch
 
-Add a new *CloudWatch* datasource in http://localhost:3000/datasources. You can choose from 3 different authentication mechanisms:
+See [http://docs.grafana.org/features/datasources/cloudwatch/#using-aws-cloudwatch-in-grafana](http://docs.grafana.org/features/datasources/cloudwatch/#using-aws-cloudwatch-in-grafana) for more details.
 
-- **Access & Secret Key** - Access keys belong to [IAM](https://aws.amazon.com/iam/) users, which means you have to create a user for Grafana. It's a simple and common practice, but not recommended.
-- **Credentials file** - Essentially the same as **Access keys**. If you have configured your [AWS CLI](https://aws.amazon.com/cli/) properly, you'll have the **Access key** stored in a *credentials file* usually located in `~/.aws/credentials`. By referencing a profile in the credentials file, you don't have to store the **Access key** in Grafana:
+Grafana supports 3 different authentication mechanisms for AWS:
+
+- **Access & Secret Key** - Access keys belong to [IAM](https://aws.amazon.com/iam/) users, which means you have to create a user for Grafana (and optionally create temporary credentials using [AWS STS](https://docs.aws.amazon.com/cli/latest/reference/sts/index.html)). You can either save the access key when creating the Grafana datasource, or as environment variables in the Grafana docker image, see [Configuring AWS credentials for CloudWatch support](https://github.com/grafana/grafana-docker/blob/master/README.md#configuring-aws-credentials-for-cloudwatch-support)).
+- **Credentials file** - Essentially the same as above, but you save the access keys in a file instead. If you have configured your [AWS CLI](https://aws.amazon.com/cli/) properly, you'll have a *credentials file* with your own **Access key**, most likely in `~/.aws/credentials`. By creating a credentials file in the Docker image, you don't have to store the key in Grafana, see
+[CloudWatch Authentication](http://docs.grafana.org/features/datasources/cloudwatch/#authentication).
+- **ARN** - Instead of creating a user for Grafana, you can specify a role. This is mainly useful when your docker container is already running in the AWS cloud. The role must be given the proper permissions (IAM policies).
+
+Restart the container according to [Configuring AWS credentials for CloudWatch support](https://github.com/grafana/grafana-docker/blob/master/README.md#configuring-aws-credentials-for-cloudwatch-support):
+```bash
+docker run \
+  -d \
+  -p 3000:3000 \
+  --name=grafana \
+  -e "GF_AWS_PROFILES=default" \
+  -e "GF_AWS_default_ACCESS_KEY_ID=YOUR_ACCESS_KEY" \
+  -e "GF_AWS_default_SECRET_ACCESS_KEY=YOUR_SECRET_KEY" \
+  -e "GF_AWS_default_REGION=us-east-1" \
+  grafana/grafana
 ```
-[default]
-aws_access_key_id=AKIAIOSFODNN7EXAMPLE
-aws_secret_access_key=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
 
-[user2]
-aws_access_key_id=AKIAI44QH8DHBEXAMPLE
-aws_secret_access_key=je7MtGbClwBF/2Zp9Utk/h3yCo8nvbEXAMPLEKEY
-```
-- **ARN** - Instead of creating a user for Grafan, you can specify a role. The role is given the proper permissions (IAM policies) 
+It will actually create a *credentials file* in the Grafana users home directory; `/usr/share/grafana/.aws/credentials`, with a default profile as specified above.
 
-Log in to your AWS console:
-- [https://console.aws.amazon.com/](https://console.aws.amazon.com/)
+Add a new *CloudWatch* datasource in http://localhost:3000/datasources. Leave everything as default, and the datasource should pick up your default profile
 
-
+Find an interesting dashboard at [https://grafana.com/dashboards?dataSource=cloudwatch](https://grafana.com/dashboards?dataSource=cloudwatch).
 
 ## ElasticSearch
+
+
 
 ## Graphite
 
@@ -98,7 +110,12 @@ Log in to your AWS console:
 
 ## OpenTSDB
 
+## Debug
 
-
+Check `Grafana` logs on Docker container:
+```bash
+docker container ls
+docker logs <container name>
+```
 
 
