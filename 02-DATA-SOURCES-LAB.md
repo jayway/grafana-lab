@@ -102,6 +102,11 @@ Find an interesting dashboard at [https://grafana.com/dashboards?dataSource=clou
 
 ## ElasticSearch
 
+More details here: [http://docs.grafana.org/features/datasources/elasticsearch/](http://docs.grafana.org/features/datasources/elasticsearch/).
+
+For this lab, we'll connect to a **Elasticsearch** cluster running in your AWS account. First, fire up a new ES cluster:
+
+```bash
 
 
 ## Graphite
