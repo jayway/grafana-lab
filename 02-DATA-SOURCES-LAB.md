@@ -104,10 +104,26 @@ Find an interesting dashboard at [https://grafana.com/dashboards?dataSource=clou
 
 More details here: [http://docs.grafana.org/features/datasources/elasticsearch/](http://docs.grafana.org/features/datasources/elasticsearch/).
 
-For this lab, we'll connect to a **Elasticsearch** cluster running in your AWS account. First, fire up a new ES cluster:
+For this lab, we'll connect to a **Elasticsearch** cluster running in your AWS account. First, fire up a new ES cluster using a [CloudFormation](https://aws.amazon.com/cloudformation/) template:
 
 ```bash
+./es/deploy.sh
+```
 
+Open up [http://localhost:3000/datasources](http://localhost:3000/datasources), add a new *Elasticsearch* datasource with the following parameters:
+
+| Setting | Value         |
+| ------- | -----         |
+| Name    | AwsEs         |
+| Type    | Elasticsearch |
+| Url     | *Url returned by deploy script* |
+| Access  | direct |
+| Basic Auth  | *not checked (we're using IP whitelisting)* |
+| With Credentials  | *not checked* |
+| Index name  | ??? |
+| Pattern  | ??? |
+| Time field name  | ??? |
+| Version  | 5.x |
 
 ## Graphite
 

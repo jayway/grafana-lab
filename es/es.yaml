@@ -1,0 +1,37 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Elasticsearch Domain
+
+Parameters:
+  DomainName:
+    Description: Elasticsearch Domain name
+    Type: String
+    Default: es-grafana
+
+Resources:
+  # https://aws.amazon.com/blogs/security/how-to-control-access-to-your-amazon-elasticsearch-service-domain/
+  ElasticsearchDomain:
+    Type: AWS::Elasticsearch::Domain
+    Properties:
+      DomainName: !Ref DomainName
+      ElasticsearchVersion: 5.5
+      ElasticsearchClusterConfig:
+        InstanceCount: 1
+        InstanceType: t2.small.elasticsearch
+      EBSOptions:
+        EBSEnabled: true
+        VolumeSize: 10
+        VolumeType: gp2
+      AccessPolicies:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action: es:ESHttpGet
+            Resource: !Sub 'arn:aws:es:${AWS::Region}:${AWS::AccountId}:domain/${DomainName}/*'
+            Condition:
+              IpAddress:
+                aws:SourceIp:
+                  - <youriphere>
+
+Outputs:
+  DomainEndpoint:
+    Value: !Sub 'https://${ElasticsearchDomain.DomainEndpoint}'
