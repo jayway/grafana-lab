@@ -28,4 +28,4 @@ aws cloudformation deploy \
     --parameter-overrides DomainName=$ES_DOMAIN \
     --capabilities CAPABILITY_IAM
 
-echo $(aws cloudformation describe-stacks --stack-name $ES_DOMAIN --query Stacks[0].Outputs[0].OutputValue --output=text)
+echo $(aws cloudformation describe-stacks --stack-name $ES_DOMAIN --query 'Stacks[0].Outputs[?OutputKey==`DomainEndpoint`].OutputValue' --output text)

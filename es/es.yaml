@@ -25,13 +25,22 @@ Resources:
         Version: '2012-10-17'
         Statement:
           - Effect: Allow
-            Action: es:ESHttpGet
+            Action:
+              - es:ESHttpDelete
+              - es:ESHttpHead
+              - es:ESHttpGet
+              - es:ESHttpPut
+              - es:ESHttpPost
+            Principal:
+              AWS: '*'
             Resource: !Sub 'arn:aws:es:${AWS::Region}:${AWS::AccountId}:domain/${DomainName}/*'
             Condition:
               IpAddress:
                 aws:SourceIp:
-                  - <youriphere>
+                  - <your public ip here>
 
 Outputs:
   DomainEndpoint:
+    Value: !GetAtt ElasticsearchDomain.DomainEndpoint
+  DomainUrl:
     Value: !Sub 'https://${ElasticsearchDomain.DomainEndpoint}'

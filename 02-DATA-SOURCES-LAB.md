@@ -110,6 +110,12 @@ For this lab, we'll connect to a **Elasticsearch** cluster running in your AWS a
 ./es/deploy.sh
 ```
 
+Take a note of the domain name in the output. Next, you need to put som data in the domain:
+
+```bash
+./es/es-put.sh <domain endpoint>
+```
+
 Open up [http://localhost:3000/datasources](http://localhost:3000/datasources), add a new *Elasticsearch* datasource with the following parameters:
 
 | Setting | Value         |
@@ -120,10 +126,12 @@ Open up [http://localhost:3000/datasources](http://localhost:3000/datasources), 
 | Access  | direct |
 | Basic Auth  | *not checked (we're using IP whitelisting)* |
 | With Credentials  | *not checked* |
-| Index name  | ??? |
-| Pattern  | ??? |
-| Time field name  | ??? |
+| Index name  | movies |
+| Pattern  | No pattern |
+| Time field name  | @timestamp |
 | Version  | 5.x |
+
+Next, create a dashboard to display the 3(!) values added by the script. Hint! You need to set the time range to start from the 1950's.
 
 ## Graphite
 
