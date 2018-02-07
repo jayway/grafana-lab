@@ -135,11 +135,9 @@ Next, create a dashboard to display the 3(!) values added by the script. Hint! Y
 
 ## Graphite
 
-## MySQL
+Now you should be able to try out adding a data source without instructions. Follow [this](https://github.com/graphite-project/docker-graphite-statsd) guide and try to add it as a datasource to your already running *Grafana* container.
 
-## OpenTSDB
-
-## Debug
+## Tips & tricks
 
 Check `Grafana` logs on Docker container:
 ```bash
