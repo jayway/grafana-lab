@@ -37,4 +37,4 @@ Grafana has a [getting started guide](http://docs.grafana.org/guides/getting_sta
 ### 2. Data sources lab
 
 Move on to the next lab:
-- [02-DATA-SOURCES.md](02-DATA-SOURCES.md)
+- [02-DATA-SOURCES.md](02-DATA-SOURCES-LAB.md)
